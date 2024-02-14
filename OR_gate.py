@@ -3,15 +3,15 @@ from torch import nn
 import random
 
 
-class AND(nn.Module):
+class OR(nn.Module):
     def __init__(self):
         super().__init__()
         self.loss_fn = nn.BCELoss()
         self.optimizer = torch.optim.Adam
         self.epochs = 2000
         self.learning_rate = 1e-1
-        self.file_name = 'model_AND.pth'
-        self.data_test = AND.get_data()
+        self.file_name = 'model_OR.pth'
+        self.data_test = OR.get_data()
         self.linear_stack = nn.Sequential(
             nn.Linear(2, 1),
             nn.Sigmoid(),
@@ -26,7 +26,7 @@ class AND(nn.Module):
              [False, True],
              [True, False],
              [True, True]]
-        y = [False, False, False, True]
+        y = [False, True, True, True]
         data_test = []
         for i in range(len(x)):
             data_test.append((torch.FloatTensor(x[i]), torch.FloatTensor([y[i]])))
@@ -49,7 +49,7 @@ class AND(nn.Module):
         optimizer = self.optimizer(self.parameters(), lr=self.learning_rate)
 
         for epoch in range(self.epochs):
-            for i in AND.get_shuffle_set(len(self.data_test)):
+            for i in OR.get_shuffle_set(len(self.data_test)):
                 X, y = self.data_test[i]
 
                 # Compute prediction error
@@ -95,10 +95,9 @@ class AND(nn.Module):
 
 
 if __name__ == '__main__':
-    model = AND()
+    model = OR()
     model.get_model()
     model.test_model()
-
 
 
 
